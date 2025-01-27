@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:task_manager_1/main.dart';
+import 'package:go_router/go_router.dart';
 
-class NewTaskScreen extends StatelessWidget {
-  const NewTaskScreen({super.key});
+class NewTaskScreen extends ConsumerWidget {
+  NewTaskScreen({super.key});
+
+  final textController = TextEditingController();
+
+  createNewTask (client, value) async {
+    await client.from('tasks').insert({'description': value});
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -15,7 +24,17 @@ class NewTaskScreen extends StatelessWidget {
                 label: Text('Task Name'),
                 border: OutlineInputBorder(),
               ),
-            )
+              controller: textController,
+            ),
+            ElevatedButton(
+              onPressed:
+                  () {
+                    createNewTask(ref.watch(clientProvider), textController.text);
+                    textController.clear();
+                    context.go('/');
+                  },
+              child: Text('Add'),
+            ),
           ],
         ),
       ),

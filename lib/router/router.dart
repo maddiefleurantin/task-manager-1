@@ -3,10 +3,10 @@ import 'package:task_manager_1/views/home_screen.dart';
 import 'package:task_manager_1/views/new_task_screen.dart';
 
 final router = GoRouter(
-  initialLocation: "/home",
+  initialLocation: "/",
   routes: [
     GoRoute(
-      path: "/home",
+      path: "/",
       name: "home",
       builder: (context, state) => HomeScreen(),
     ),

@@ -2,25 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_manager_1/providers/task_list.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final futureTasks = Supabase.instance.client.from('Tasks').select();
-
-  @override
-  Widget build(BuildContext context) {
-    //final futureTasks = ref.watch(taskListProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final taskStream = ref.watch(taskListProvider);
 
     return Scaffold(
-      body: FutureBuilder(
-        future: futureTasks,
+      body: StreamBuilder(
+        stream: taskStream,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(
@@ -33,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               final task = tasks[index];
               return Card(
-                child: Text(task['title']),
+                child: Text(task['description']),
               );
             },
           );
