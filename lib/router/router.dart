@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:task_manager_1/views/home_screen.dart';
-import 'package:task_manager_1/views/new_task_screen.dart';
+import 'package:task_manager_1/screens/home_screen.dart';
+import 'package:task_manager_1/screens/new_task_screen.dart';
+import 'package:task_manager_1/screens/task_details_screen.dart';
 
 final router = GoRouter(
   initialLocation: "/",
@@ -14,6 +15,11 @@ final router = GoRouter(
       path: "/newtask",
       name: "newtask",
       builder: (context, state) => NewTaskScreen(),
+    ),
+    GoRoute(
+      path: '/taskdetails',
+      name: 'taskdetails',
+      builder: (context, state) => TaskDetailsScreen(),
     ),
   ],
 );

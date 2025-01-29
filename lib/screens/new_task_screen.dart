@@ -8,13 +8,20 @@ class NewTaskScreen extends ConsumerWidget {
 
   final textController = TextEditingController();
 
-  createNewTask (client, value) async {
+  createNewTask(client, value) async {
     await client.from('tasks').insert({'description': value});
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => context.go('/'),
+          icon: Icon(Icons.navigate_before),
+        ),
+        title: Text('New Task'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -27,12 +34,11 @@ class NewTaskScreen extends ConsumerWidget {
               controller: textController,
             ),
             ElevatedButton(
-              onPressed:
-                  () {
-                    createNewTask(ref.watch(clientProvider), textController.text);
-                    textController.clear();
-                    context.go('/');
-                  },
+              onPressed: () {
+                createNewTask(ref.watch(clientProvider), textController.text);
+                textController.clear();
+                context.go('/');
+              },
               child: Text('Add'),
             ),
           ],
